@@ -1,23 +1,25 @@
-DigistumpArduino
+DigistumpArduino - Germanized Keyboard Library
 ================
 
-Files to add Digistump support (Digispark, Pro, DigiX) to Arduino 1.6.X (1.6.4+)
+This fork adds only a single file to enable DigiKeyboard usage for keyboards with german layout
+```c
+//This the important part, include the De suffixed version instead of the normal one and the rest goes same as the original lib.
+#include "DigiKeyboardDe.h"
 
-**These files are designed for install via the Arduino Boards Manager:** 
+void setup() {
+  // don't need to set anything up to use DigiKeyboard
+}
 
-Board manager URL: http://digistump.com/package_digistump_index.json
 
-**Full Install Instructions:** 
-
-Digispark: http://digistump.com/wiki/digispark/tutorials/connecting
-
-Digispark Pro: http://digistump.com/wiki/digispark/tutorials/connectingpro
-
-DigiX: http://digistump.com/wiki/digix/tutorials/software
-
-**To compile:**
-
-Micronucleus is the only executable in these packages that is pre-compiled:
-
-Micronucleus: https://github.com/micronucleus/micronucleus/tree/80419704f68bf0783c5de63a6a4b9d89b45235c7
-Dependencies: libusb and possibly lib32stdc on linux - (on ubuntu get it by issuing: apt-get install lib32stdc++6)
+void loop() {
+  // this is generally not necessary but with some older systems it seems to
+  // prevent missing the first character after a delay:
+  DigiKeyboardDe.sendKeyStroke(0);
+  
+  DigiKeyboardDe.println("Hello XYZ !\"§$%&/()=? [] {}!");
+  // It's better to use DigiKeyboard.delay() over the regular Arduino delay()
+  // if doing keyboard stuff because it keeps talking to the computer to make
+  // sure the computer knows the keyboard is alive and connected
+  DigiKeyboard.delay(5000);
+}
+```
